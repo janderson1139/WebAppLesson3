@@ -56,5 +56,5 @@ class NewPost(webapp2.RequestHandler):
             error = "we need both a subject and some content please"
             self.write_form(subject=subject, content = content, error = error)
 
-application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink ],
+application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink) ],
                              debug=True)
