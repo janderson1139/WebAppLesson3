@@ -27,7 +27,7 @@ class PermaLink(webapp2.RequestHandler):
         postnum = self.request.path
         postnum = postnum.replace('/','')
         self.response.out.write(postnum)
-        post = db.GqlQuery("select * from Post where postid = postnum")
+        post = db.Query(Post).filter("postid =", postnum).fetch(limit=1)
         self.response.out.write(post.content)
 
 class MainPage(webapp2.RequestHandler):
@@ -56,9 +56,10 @@ class NewPost(webapp2.RequestHandler):
 
         if subject and content:
             posts = db.GqlQuery("select * from Post ORDER BY postid")
-            numposts = 1000
+            numposts = 999
             for post in posts:
                 numposts = post.postid
+            numposts = numposts + 1
             #if len(posts) >= 1:
             #    numposts = posts[0].postid
             #else:
