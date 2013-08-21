@@ -20,9 +20,14 @@ class Post(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
+    postid = db.StringProperty(required = True)
 class PermaLink(webapp2.RequestHandler):
     def get(self):
-        self.response.out.write(self.request.path)
+        postnum = self.request.path
+        postnum = postnum.replace('/','')
+        self.response.out.write(postnum)
+        post = db.GqlQuery("select * from Post where postid = postnum")
+        self.response.out.write(post.content)
 
 class MainPage(webapp2.RequestHandler):
     def write_form(self):
@@ -49,7 +54,12 @@ class NewPost(webapp2.RequestHandler):
         content = self.request.get("content")
 
         if subject and content:
-            newpost = Post(subject = subject, content = content)
+            posts = db.GqlQuery("select * from Post ORDER BY postid DESC")
+            if (posts[0].postid):
+                nextid = posts[0].postid
+            else:
+                nextid = 1000
+            newpost = Post(subject = subject, content = content, postid = nextid)
             newpost.put()
             self.redirect("/")
         else:
