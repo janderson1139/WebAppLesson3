@@ -29,13 +29,16 @@ class PermaLink(webapp2.RequestHandler):
         self.response.out.write(postnum)
         #posts = db.Query(Post).filter("postid =", postnum).fetch(limit=1)
         query = "select * from Post WHERE postid = %s" % postnum
-        #posts = db.GqlQuery(query)
+        posts = db.GqlQuery(query)
         #if posts[0]:
         #    post = posts[0]
         #    self.response.out.write(post.content)
         #else:
         #self.response.out.write("that is an invalid permalink sir")
- 
+        template_values = {}
+        template_values['posts'] = posts
+        template = jinja_environment.get_template('permalink.html')
+        self.response.out.write(template.render(template_values))
         
 class MainPage(webapp2.RequestHandler):
     def write_form(self):
