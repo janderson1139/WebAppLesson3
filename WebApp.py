@@ -21,7 +21,7 @@ class Post(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
-    postid = db.StringProperty(required = True)
+    postid = db.IntegerProperty(required = True)
 class PermaLink(webapp2.RequestHandler):
     def get(self):
         postnum = self.request.path
