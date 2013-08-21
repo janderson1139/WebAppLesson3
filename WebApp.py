@@ -28,9 +28,13 @@ class PermaLink(webapp2.RequestHandler):
         postnum = postnum.replace('/','')
         self.response.out.write(postnum)
         posts = db.Query(Post).filter("postid =", postnum).fetch(limit=1)
-        post = posts[0]
-        self.response.out.write(post.content)
-
+        if posts[0]:
+            post = posts[0]
+            self.response.out.write(post.content)
+        else:
+            self.response.out.write("that is an invalid permalink sir")
+ 
+        
 class MainPage(webapp2.RequestHandler):
     def write_form(self):
         template_values = {}
