@@ -20,7 +20,9 @@ class Post(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
-
+class PermaLink(webapp2.RequestHandler):
+    def get(self):
+        self.response.out.write("itworkeds!")
 
 class MainPage(webapp2.RequestHandler):
     def write_form(self):
@@ -54,5 +56,5 @@ class NewPost(webapp2.RequestHandler):
             error = "we need both a subject and some content please"
             self.write_form(subject=subject, content = content, error = error)
 
-application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost) ],
+application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink ],
                              debug=True)
