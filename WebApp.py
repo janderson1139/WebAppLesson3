@@ -15,6 +15,7 @@ def escape_html(s):
 
 jinja_environment = jinja2.Environment(autoescape=True,
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'HTML')))
+numposts = 1000
 
 class Post(db.Model):
     subject = db.StringProperty(required = True)
@@ -54,14 +55,12 @@ class NewPost(webapp2.RequestHandler):
         content = self.request.get("content")
 
         if subject and content:
-            posts = db.GqlQuery("select * from Post ORDER BY postid DESC")
-            if (posts[0].postid):
-                nextid = posts[0].postid
-            else:
-                nextid = '1000'
-            newpost = Post(subject = subject, content = content, postid = nextid)
+            
+            newpost = Post(subject = subject, content = content, postid = numposts)
             newpost.put()
-            self.redirect("/" + nextid)
+            url = "/%s" % numposts
+            self.redirect(url)
+            numposts = numposts + 1
         else:
             error = "we need both a subject and some content please"
             self.write_form(subject=subject, content = content, error = error)
