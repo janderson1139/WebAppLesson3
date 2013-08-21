@@ -56,7 +56,7 @@ class NewPost(webapp2.RequestHandler):
 
         if subject and content:
             posts = db.GqlQuery("select * from Post ORDER BY postid DESC")
-            if posts:
+            if len(posts) >= 1:
                 numposts = posts[0].postid
             else:
                 numposts = 1000
