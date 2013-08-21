@@ -55,10 +55,10 @@ class NewPost(webapp2.RequestHandler):
         content = self.request.get("content")
 
         if subject and content:
-            #posts = db.GqlQuery("select * from Post ORDER BY postid")
+            posts = db.GqlQuery("select * from Post ORDER BY postid")
             numposts = 1000
-            #for post in posts:
-            #    numposts = post.postid
+            for post in posts:
+                numposts = post.postid
             #if len(posts) >= 1:
             #    numposts = posts[0].postid
             #else:
