@@ -58,10 +58,10 @@ class NewPost(webapp2.RequestHandler):
             if (posts[0].postid):
                 nextid = posts[0].postid
             else:
-                nextid = 1000
+                nextid = '1000'
             newpost = Post(subject = subject, content = content, postid = nextid)
             newpost.put()
-            self.redirect("/")
+            self.redirect("/" + nextid)
         else:
             error = "we need both a subject and some content please"
             self.write_form(subject=subject, content = content, error = error)
