@@ -37,7 +37,7 @@ class PermaLink(webapp2.RequestHandler):
         #self.response.out.write("that is an invalid permalink sir")
         template_values = {}
         template_values['posts'] = posts
-        template = jinja_environment.get_template('index.html')
+        template = jinja_environment.get_template('permalink.html')
         self.response.out.write(template.render(template_values))
         
 class MainPage(webapp2.RequestHandler):
