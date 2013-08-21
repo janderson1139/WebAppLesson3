@@ -27,7 +27,8 @@ class PermaLink(webapp2.RequestHandler):
         postnum = self.request.path
         postnum = postnum.replace('/','')
         self.response.out.write(postnum)
-        post = db.Query(Post).filter("postid =", postnum).fetch(limit=1)
+        posts = db.Query(Post).filter("postid =", postnum).fetch(limit=1)
+        post = posts[0]
         self.response.out.write(post.content)
 
 class MainPage(webapp2.RequestHandler):
