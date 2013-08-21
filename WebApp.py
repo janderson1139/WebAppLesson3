@@ -22,7 +22,7 @@ class Post(db.Model):
     created = db.DateTimeProperty(auto_now_add = True)
 class PermaLink(webapp2.RequestHandler):
     def get(self):
-        self.response.out.write("itworkeds!")
+        self.response.out.write(self.request.path)
 
 class MainPage(webapp2.RequestHandler):
     def write_form(self):
