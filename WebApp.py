@@ -27,12 +27,14 @@ class PermaLink(webapp2.RequestHandler):
         postnum = self.request.path
         postnum = postnum.replace('/','')
         self.response.out.write(postnum)
-        posts = db.Query(Post).filter("postid =", postnum).fetch(limit=1)
-        if posts[0]:
-            post = posts[0]
-            self.response.out.write(post.content)
-        else:
-            self.response.out.write("that is an invalid permalink sir")
+        #posts = db.Query(Post).filter("postid =", postnum).fetch(limit=1)
+        query = "select * from Post WHERE postid = %s" % postnum
+        #posts = db.GqlQuery(query)
+        #if posts[0]:
+        #    post = posts[0]
+        #    self.response.out.write(post.content)
+        #else:
+        #self.response.out.write("that is an invalid permalink sir")
  
         
 class MainPage(webapp2.RequestHandler):
