@@ -55,17 +55,18 @@ class NewPost(webapp2.RequestHandler):
         content = self.request.get("content")
 
         if subject and content:
-            posts = db.GqlQuery("select * from Post ORDER BY postid DESC")
-            self.response.out.write(len(posts))
-            self.response.out.write(posts[0])
+            posts = db.GqlQuery("select * from Post ORDER BY postid")
+            numposts = 1000
+            for post in posts:
+                numposts = post.postid
             #if len(posts) >= 1:
             #    numposts = posts[0].postid
             #else:
             #    numposts = 1000
-            #newpost = Post(subject = subject, content = content, postid = numposts)
-            #newpost.put()
-            #url = "/%s" % numposts
-            #self.redirect(url)
+            newpost = Post(subject = subject, content = content, postid = numposts)
+            newpost.put()
+            url = "/%s" % numposts
+            self.redirect(url)
             
         else:
             error = "we need both a subject and some content please"
