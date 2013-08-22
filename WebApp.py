@@ -149,15 +149,23 @@ class Login(BlogHandler):
     def post(self):
         username = self.request.get('username')
         password = self.request.get('password') 
+        passwordhash = hashlib.sha256(password).hexdigest()
+
+        quser = User.all()
+        quser.filter('username =', username)
+        quser.filter('passwordhash =', passwordhash)
+        user = quser.get()
         
-        passwordhash = hashlib.sha256(password1).hexdigest()
-        newuser = User(username=username, passwordhash=passwordhash, email=email)
-        newuser.put()
-        userid = newuser.key().id()
+        if user:
+            cookiestr = str('user_id=%s|%s; Path=/' % (user.id(), passwordhash))
+            self.response.headers.add_header('Set-Cookie',cookiestr)   
+            self.redirect('/welcome')
+        else:
+            error = "Invalid Login"
+            self.render('login.html',username = username, error = error)
+            
         
         
-        cookiestr = str('user_id=%s|%s; Path=/' % (userid, passwordhash))
-        self.response.headers.add_header('Set-Cookie',cookiestr)
             
 application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome) ],
                              debug=True)
