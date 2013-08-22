@@ -104,5 +104,5 @@ class SignUp(BlogHandler):
             self.render('signup.html',username=username, email=email, error=error)
             
             
-application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink) ],
+application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp) ],
                              debug=True)
