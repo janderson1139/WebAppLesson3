@@ -6,6 +6,7 @@ import re
 from google.appengine.api import urlfetch
 import jinja2
 import os
+import hashlib
 
 from google.appengine.ext import db
 
@@ -42,6 +43,11 @@ class Post(db.Model):
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
     postid = db.IntegerProperty(required = True)
+class User(db.Model):
+    username = db.StringProperty(required = True)
+    password = db.StringProperty(required = True)
+    email = db.StringProperty(required = FALSE)
+    
 class PermaLink(webapp2.RequestHandler):
     def get(self):
         postnum = self.request.path
@@ -108,7 +114,13 @@ class SignUp(BlogHandler):
         email = self.request.get('email')
          
         if password1 == password2 and EMAIL_RE.match(email) and PASSWORD_RE.match(password1) and USER_RE.match(username):
-            cookiestr = str('username=%s; Path=/' % username)
+            passwordhash = hashlib.sha256(password1)
+            newuser = User(username = username, password=passwordhash, email=email)
+            newuser.put()
+            userid = newuser.key().id()
+            
+            
+            cookiestr = str('user_id=%s|%s; Path=/' % (userid, passwordhash))
             self.response.headers.add_header('Set-Cookie',cookiestr)
             self.redirect('/welcome')
         else:
