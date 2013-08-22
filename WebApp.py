@@ -143,7 +143,21 @@ class Welcome(BlogHandler):
                 self.redirect('/signup')    
         else:
             self.redirect('/signup')
-            
+class Login(BlogHandler):
+    def get(self):
+        self.render('login.html')
+    def post(self):
+        username = self.request.get('username')
+        password = self.request.get('password') 
+        
+        passwordhash = hashlib.sha256(password1).hexdigest()
+        newuser = User(username=username, passwordhash=passwordhash, email=email)
+        newuser.put()
+        userid = newuser.key().id()
+        
+        
+        cookiestr = str('user_id=%s|%s; Path=/' % (userid, passwordhash))
+        self.response.headers.add_header('Set-Cookie',cookiestr)
             
 application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome) ],
                              debug=True)
