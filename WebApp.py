@@ -131,15 +131,19 @@ class Welcome(BlogHandler):
     def get(self):
         usercookie = self.request.cookies.get('user_id')
         self.response.write(usercookie)
-        #if usercookie:
-        #    userid = usercookie.split('|')[0]
-        #    hash = usercookie.split('|')[1]
-        #    query = "select * from User WHERE id = %s" % userid
-        #    users = db.GqlQuery(query)
-        ##    username = users[0].id
-        #    self.render('welcome.html', username=username)
-        #else:
-        #    self.redirect('/signup')
+        if usercookie:
+            userid = usercookie.split('|')[0]
+            hash = usercookie.split('|')[1]
+            #query = "select * from User WHERE id = %s" % userid
+            #users = db.GqlQuery(query)
+            key = db.Key.from_path('User', int(userid))
+            user = db.get(key)
+            if user:
+                self.render('welcome.html', username=user.username)
+            else:
+                self.redirect('/signup')    
+        else:
+            self.redirect('/signup')
             
 application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome) ],
                              debug=True)
