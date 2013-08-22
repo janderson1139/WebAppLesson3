@@ -108,7 +108,7 @@ class SignUp(BlogHandler):
         email = self.request.get('email')
          
         if password1 == password2 and EMAIL_RE.match(email) and PASSWORD_RE.match(password1) and USER_RE.match(username):
-            cookiestr = 'username=%s; Path=/' % username
+            cookiestr = str('username=%s; Path=/' % username)
             self.response.headers.add_header('Set-Cookie',cookiestr)
             self.redirect('/welcome')
         else:
