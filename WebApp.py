@@ -157,7 +157,7 @@ class LoginPage(BlogHandler):
         user = quser.get()
         
         if user:
-            cookiestr = str('user_id=%s|%s; Path=/' % (user.id(), passwordhash))
+            cookiestr = str('user_id=%s|%s; Path=/' % (user.__key__(), passwordhash))
             self.response.headers.add_header('Set-Cookie',cookiestr)   
             self.redirect('/welcome')
         else:
