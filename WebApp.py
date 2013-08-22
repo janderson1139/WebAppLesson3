@@ -130,7 +130,6 @@ class SignUp(BlogHandler):
 class Welcome(BlogHandler):
     def get(self):
         usercookie = self.request.cookies.get('user_id')
-        self.response.write(usercookie)
         if usercookie:
             userid = usercookie.split('|')[0]
             hash = usercookie.split('|')[1]
