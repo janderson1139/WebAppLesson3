@@ -113,7 +113,7 @@ class SignUp(BlogHandler):
         password2 = self.request.get('verify') 
         email = self.request.get('email')
          
-        if password1 == password2 and EMAIL_RE.match(email) and PASSWORD_RE.match(password1) and USER_RE.match(username):
+        if password1 == password2 and PASSWORD_RE.match(password1) and USER_RE.match(username):
             passwordhash = hashlib.sha256(password1).hexdigest()
             newuser = User(username=username, passwordhash=passwordhash, email=email)
             newuser.put()
