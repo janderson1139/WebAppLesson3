@@ -116,8 +116,9 @@ class SignUp(BlogHandler):
         if password1 == password2 and EMAIL_RE.match(email) and PASSWORD_RE.match(password1) and USER_RE.match(username):
             passwordhash = hashlib.sha256(password1).hexdigest()
             newuser = User(username=username, passwordhash=passwordhash, email=email)
-            userid = newuser.key().id()
             newuser.put()
+            userid = newuser.key().id()
+            
             
             cookiestr = str('user_id=%s|%s; Path=/' % (userid, passwordhash))
             self.response.headers.add_header('Set-Cookie',cookiestr)
