@@ -143,7 +143,7 @@ class Welcome(BlogHandler):
                 self.redirect('/signup')    
         else:
             self.redirect('/signup')
-class Login(BlogHandler):
+class LoginPage(BlogHandler):
     def get(self):
         self.render('login.html')
     def post(self):
@@ -167,5 +167,5 @@ class Login(BlogHandler):
         
         
             
-application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome), ('/login', Login) ],
+application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome), ('/login', LoginPage) ],
                              debug=True)
