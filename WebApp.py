@@ -128,7 +128,12 @@ class SignUp(BlogHandler):
             self.render('signup.html',username=username, email=email, error=error)
 class Welcome(BlogHandler):
     def get(self):
-        username = self.request.cookies.get('username')
+        username = self.request.cookies.get('user_id')
+        userid = username.split('|')[0]
+        hash = username.split('|')[1]
+        query = "select * from User WHERE id = %s" % userid
+        users = db.GqlQuery(query)
+        username = users[0].id
         self.render('welcome.html', username=username)
         
             
