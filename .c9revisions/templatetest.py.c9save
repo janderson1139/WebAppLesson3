@@ -1,0 +1,1 @@
+{"ts":1377107192096,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"from jinja2 import Environment, PackageLoader\nenv = Environment(loader=PackageLoader('yourapplication', 'HTML'))\ntemplate = env.get_template('index.html')\nprint template.render(the='variables', go='here')\n"]],"start1":0,"start2":0,"length1":0,"length2":205}]],"length":205}

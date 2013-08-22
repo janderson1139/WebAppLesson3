@@ -15,7 +15,16 @@ def escape_html(s):
 
 jinja_environment = jinja2.Environment(autoescape=True,
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'HTML')))
-
+class BlogHandler(webapp2.RequestHandler):
+    def write(self, *a, **kw):
+        self.response.out.write(*a, **kw)
+    
+    def render_str(self, template, **params):
+        t = jinja_environment.get_template(template)
+        return t.render(params)
+    
+    def render(self, template, **kw):
+        self.write(self.render_str(template, **kw))
 
 class Post(db.Model):
     subject = db.StringProperty(required = True)
@@ -30,11 +39,7 @@ class PermaLink(webapp2.RequestHandler):
         #posts = db.Query(Post).filter("postid =", postnum).fetch(limit=1)
         query = "select * from Post WHERE postid = %s" % postnum
         posts = db.GqlQuery(query)
-        #if posts[0]:
-        #    post = posts[0]
-        #    self.response.out.write(post.content)
-        #else:
-        #self.response.out.write("that is an invalid permalink sir")
+        
         template_values = {}
         template_values['posts'] = posts
         template = jinja_environment.get_template('permalink.html')
@@ -82,6 +87,22 @@ class NewPost(webapp2.RequestHandler):
         else:
             error = "we need both a subject and some content please"
             self.write_form(subject=subject, content = content, error = error)
-
+class SignUp(BlogHandler):
+    def get(self):
+        self.render('signup.html')
+    def post(self):
+        username = self.request.get('username')
+        password1 = self.request.get('password') 
+        password2 = self.request.get('verify') 
+        email = self.request.get('email')
+         
+        if password1 == password2 and EMAIL_RE.match(email) and PASSWORD_RE.match(password1) and USER_RE.match(username):
+            url = ("/success?username=%s" % username)
+            self.redirect(url)
+        else:
+            error = "Invalid input"
+            self.render('signup.html',username=username, email=email, error=error)
+            
+            
 application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink) ],
                              debug=True)
