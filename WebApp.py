@@ -113,7 +113,11 @@ class SignUp(BlogHandler):
         else:
             error = "Invalid input"
             self.render('signup.html',username=username, email=email, error=error)
+class Welcome(BlogHandler):
+    def get(self):
+        username = self.request.cookies.get('username')
+        self.render('welcome.html', username=username)
+        
             
-            
-application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp) ],
+application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome) ],
                              debug=True)
