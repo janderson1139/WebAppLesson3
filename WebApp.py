@@ -122,10 +122,11 @@ class SignUp(BlogHandler):
             
             cookiestr = str('user_id=%s|%s; Path=/' % (userid, passwordhash))
             self.response.headers.add_header('Set-Cookie',cookiestr)
-            self.redirect('/welcome')
+            
         else:
             error = "Invalid input"
             self.render('signup.html',username=username, email=email, error=error)
+        self.redirect('/welcome')
 class Welcome(BlogHandler):
     def get(self):
         username = self.request.cookies.get('user_id')
