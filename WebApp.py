@@ -108,7 +108,8 @@ class SignUp(BlogHandler):
         email = self.request.get('email')
          
         if password1 == password2 and EMAIL_RE.match(email) and PASSWORD_RE.match(password1) and USER_RE.match(username):
-            self.response.headers.add_header('Set-Cookie','username=%S' % username,Path='/')
+            cookiestr = 'username=%s; Path=/' % username
+            self.response.headers.add_header('Set-Cookie',cookiestr)
             self.redirect('/welcome')
         else:
             error = "Invalid input"
