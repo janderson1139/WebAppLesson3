@@ -115,7 +115,7 @@ class SignUp(BlogHandler):
          
         if password1 == password2 and EMAIL_RE.match(email) and PASSWORD_RE.match(password1) and USER_RE.match(username):
             passwordhash = hashlib.sha256(password1).hexdigest()
-            newuser = User(username = username, password=passwordhash, email=email)
+            newuser = User(username=username, password=passwordhash, email=email)
             newuser.put()
             userid = newuser.key().id()
             
@@ -130,15 +130,16 @@ class SignUp(BlogHandler):
 class Welcome(BlogHandler):
     def get(self):
         usercookie = self.request.cookies.get('user_id')
-        if usercookie:
-            userid = usercookie.split('|')[0]
-            hash = usercookie.split('|')[1]
-            query = "select * from User WHERE id = %s" % userid
-            users = db.GqlQuery(query)
-            username = users[0].id
-            self.render('welcome.html', username=username)
-        else:
-            self.redirect('/signup')
+        self.response.write(usercookie)
+        #if usercookie:
+        #    userid = usercookie.split('|')[0]
+        #    hash = usercookie.split('|')[1]
+        #    query = "select * from User WHERE id = %s" % userid
+        #    users = db.GqlQuery(query)
+        ##    username = users[0].id
+        #    self.render('welcome.html', username=username)
+        #else:
+        #    self.redirect('/signup')
             
 application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome) ],
                              debug=True)
