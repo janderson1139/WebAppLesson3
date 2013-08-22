@@ -45,7 +45,7 @@ class Post(db.Model):
     postid = db.IntegerProperty(required = True)
 class User(db.Model):
     username = db.StringProperty(required = True)
-    password = db.StringProperty(required = True)
+    passwordhash = db.StringProperty(required = True)
     email = db.StringProperty(required = False)
     
 class PermaLink(webapp2.RequestHandler):
@@ -115,10 +115,9 @@ class SignUp(BlogHandler):
          
         if password1 == password2 and EMAIL_RE.match(email) and PASSWORD_RE.match(password1) and USER_RE.match(username):
             passwordhash = hashlib.sha256(password1).hexdigest()
-            newuser = User(username=username, password=passwordhash, email=email)
-            newuser.put()
+            newuser = User(username=username, passwordhash=passwordhash, email=email)
             userid = newuser.key().id()
-            
+            newuser.put()
             
             cookiestr = str('user_id=%s|%s; Path=/' % (userid, passwordhash))
             self.response.headers.add_header('Set-Cookie',cookiestr)
