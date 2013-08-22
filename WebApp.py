@@ -167,5 +167,5 @@ class Login(BlogHandler):
         
         
             
-application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome) ],
+application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome), ('/login', Login) ],
                              debug=True)
