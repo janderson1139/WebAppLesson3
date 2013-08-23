@@ -151,10 +151,11 @@ class LoginPage(BlogHandler):
         password = self.request.get('password') 
         passwordhash = hashlib.sha256(password).hexdigest()
 
-        quser = User.all()
-        quser.filter('username =', username)
+        #quser = User.all()
+        #quser.filter('username =', username)
         #quser.filter('passwordhash =', passwordhash)
-        user = quser.get()
+        user = db.GqlQuery("SELECT * FROM User WHERE username=:1", username)
+        user = user.get()
         
         self.response.write(user.passwordhash())
         #if user:
