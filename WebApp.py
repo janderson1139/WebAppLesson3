@@ -172,5 +172,5 @@ class LogoutPage(BlogHandler):
         
         
             
-application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome), ('/login', LoginPage), ('logout', LogoutPage) ],
+application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome), ('/login', LoginPage), ('/logout', LogoutPage) ],
                              debug=True)
