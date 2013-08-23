@@ -156,7 +156,7 @@ class LoginPage(BlogHandler):
         quser.filter('passwordhash =', passwordhash)
         user = quser.get()
         
-        self.response.write(user)s
+        self.response.write(user)
         #if user:
         #    cookiestr = str('user_id=%s|%s; Path=/' % (user.id_or_name(), passwordhash))
         #    self.response.headers.add_header('Set-Cookie',cookiestr)   
