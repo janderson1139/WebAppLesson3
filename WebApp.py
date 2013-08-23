@@ -156,13 +156,14 @@ class LoginPage(BlogHandler):
         quser.filter('passwordhash =', passwordhash)
         user = quser.get()
         
-        if user:
-            cookiestr = str('user_id=%s|%s; Path=/' % (user.id_or_name(), passwordhash))
-            self.response.headers.add_header('Set-Cookie',cookiestr)   
-            self.redirect('/welcome')
-        else:
-            error = "Invalid Login"
-            self.render('login.html',username = username, error = error)
+        self.response.write(user)s
+        #if user:
+        #    cookiestr = str('user_id=%s|%s; Path=/' % (user.id_or_name(), passwordhash))
+        #    self.response.headers.add_header('Set-Cookie',cookiestr)   
+        #    self.redirect('/welcome')
+        #else:
+        #    error = "Invalid Login"
+        #    self.render('login.html',username = username, error = error)
             
         
         
