@@ -167,7 +167,7 @@ class LoginPage(BlogHandler):\
             self.render('login.html',username = username, error = error)
 class LogoutPage(BlogHandler):
     def get(self):
-        cookiestr = str('user_id= ; Path=/'))
+        cookiestr = str('user_id= ; Path=/')
         self.response.headers.add_header('Set-Cookie',cookiestr)   
         self.redirect('/signup')
         
