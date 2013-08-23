@@ -154,6 +154,8 @@ class LoginPage(BlogHandler):
         quser = User.all()
         quser.filter('username =', username)
         quser.filter('passwordhash =', passwordhash)
+        self.response.write(username)
+        self.response.write(passwordhash)
         user = quser.get()
         
         self.response.write(user)
