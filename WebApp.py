@@ -154,7 +154,8 @@ class LoginPage(BlogHandler):
         #quser = User.all()
         #quser.filter('username =', username)
         #quser.filter('passwordhash =', passwordhash)
-        user = db.GqlQuery("SELECT * FROM User WHERE username=%s AND passwordhash=%s" % (username,passwordhash))
+        querystr = "SELECT * FROM User WHERE username=%s AND passwordhash=%s" % (username,passwordhash)
+        user = db.GqlQuery(querystr)
         user = user.get()
         
         self.response.write(user.passwordhash)
