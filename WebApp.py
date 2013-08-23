@@ -143,7 +143,8 @@ class Welcome(BlogHandler):
                 self.redirect('/signup')    
         else:
             self.redirect('/signup')
-class LoginPage(BlogHandler):
+class LoginPage(BlogHandler):\
+    
     def get(self):
         self.render('login.html')
     def post(self):
@@ -154,18 +155,16 @@ class LoginPage(BlogHandler):
         #quser = User.all()
         #quser.filter('username =', username)
         #quser.filter('passwordhash =', passwordhash)
-        querystr = "SELECT * FROM User WHERE username=%s AND passwordhash=%s" % (username,passwordhash)
-        user = db.GqlQuery(querystr)
+        user = db.GqlQuery("SELECT * FROM User WHERE username=:1", username)
         user = user.get()
         
-        self.response.write(user.passwordhash)
-        #if user:
-        #    cookiestr = str('user_id=%s|%s; Path=/' % (user.id_or_name(), passwordhash))
-        #    self.response.headers.add_header('Set-Cookie',cookiestr)   
-        #    self.redirect('/welcome')
-        #else:
-        #    error = "Invalid Login"
-        #    self.render('login.html',username = username, error = error)
+        if user AND user.passwordhash == passwordhash:
+            cookiestr = str('user_id=%s|%s; Path=/' % (user.id_or_name, passwordhash))
+            self.response.headers.add_header('Set-Cookie',cookiestr)   
+            self.redirect('/welcome')
+        else:
+            error = "Invalid Login"
+            self.render('login.html',username = username, error = error)
             
         
         
