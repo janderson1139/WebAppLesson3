@@ -157,7 +157,7 @@ class LoginPage(BlogHandler):
         user = db.GqlQuery("SELECT * FROM User WHERE username=:1", username)
         user = user.get()
         
-        self.response.write(user.passwordhash())
+        self.response.write(user.passwordhash)
         #if user:
         #    cookiestr = str('user_id=%s|%s; Path=/' % (user.id_or_name(), passwordhash))
         #    self.response.headers.add_header('Set-Cookie',cookiestr)   
