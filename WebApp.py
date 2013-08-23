@@ -159,7 +159,7 @@ class LoginPage(BlogHandler):\
         user = user.get()
         
         if user and user.passwordhash == passwordhash:
-            cookiestr = str('user_id=%s|%s; Path=/' % (user.id, passwordhash))
+            cookiestr = str('user_id=%s|%s; Path=/' % (user.key().id(), passwordhash))
             self.response.headers.add_header('Set-Cookie',cookiestr)   
             self.redirect('/welcome')
         else:
