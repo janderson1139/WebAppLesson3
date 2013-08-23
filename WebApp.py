@@ -165,9 +165,13 @@ class LoginPage(BlogHandler):\
         else:
             error = "Invalid Login"
             self.render('login.html',username = username, error = error)
-            
+class LogoutPage(BlogHandler):
+    def get(self):
+        cookiestr = str('user_id= ; Path=/'))
+        self.response.headers.add_header('Set-Cookie',cookiestr)   
+        self.redirect('/signup')
         
         
             
-application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome), ('/login', LoginPage) ],
+application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome), ('/login', LoginPage), ('logout',LogoutPage) ],
                              debug=True)
