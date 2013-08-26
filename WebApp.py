@@ -169,8 +169,10 @@ class LogoutPage(BlogHandler):
         cookiestr = str('user_id=; Path=/')
         self.response.headers.add_header('Set-Cookie',cookiestr)   
         self.redirect('/signup')
-        
+class GoogleAuth(BlogHandler):
+    def get(self):
+        self.redirect(users.create_login_url('/'))
         
             
-application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome), ('/login', LoginPage), ('/logout', LogoutPage) ],
+application = webapp2.WSGIApplication([('/', MainPage),('/newpost', NewPost),('/\d{4}', PermaLink), ('/signup', SignUp), ('/welcome', Welcome), ('/login', LoginPage), ('/logout', LogoutPage), ('/auth',GoogleAuth) ],
                              debug=True)
