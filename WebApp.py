@@ -7,6 +7,7 @@ from google.appengine.api import urlfetch
 import jinja2
 import os
 import hashlib
+from google.appengine.api import users
 
 from google.appengine.ext import db
 
