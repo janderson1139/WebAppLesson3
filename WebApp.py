@@ -200,7 +200,7 @@ class Signup(BlogHandler):
         self.render("signup-form.html")
 
     def post(self):
-        have_error = False
+        have_error = False #
         self.username = self.request.get('username')
         self.password = self.request.get('password')
         self.verify = self.request.get('verify')
