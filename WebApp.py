@@ -286,7 +286,7 @@ class Welcome(BlogHandler):
         else:
             self.redirect('/unit2/signup')
 
-app = webapp2.WSGIApplication([('/', MainPage),
+application = webapp2.WSGIApplication([('/', MainPage),
                                ('/unit2/rot13', Rot13),
                                ('/unit2/signup', Unit2Signup),
                                ('/unit2/welcome', Welcome),
