@@ -4,7 +4,8 @@ import random
 import hashlib
 import hmac
 from string import letters
-
+from json import JSONEncoder
+import json
 import webapp2
 import jinja2
 
@@ -285,7 +286,17 @@ class Welcome(BlogHandler):
             self.render('welcome.html', username = username)
         else:
             self.redirect('/unit2/signup')
-
+class FrontJson(BlogHandler):
+    def get(self):
+        posts = Post.all().order('-created')
+        jsonstr = "["
+        x = 0
+        for post in posts:
+            if x > 0:
+                poststr += ","
+            poststr = json.dumps(post.__dict__)
+            x += 1
+        jsonstr = jsonstr + "]"
 application = webapp2.WSGIApplication([('/', MainPage),
                                ('/unit2/rot13', Rot13),
                                ('/unit2/signup', Unit2Signup),
@@ -297,5 +308,6 @@ application = webapp2.WSGIApplication([('/', MainPage),
                                ('/login', Login),
                                ('/logout', Logout),
                                ('/unit3/welcome', Unit3Welcome),
+                               ('/blog/.json', FrontJson)
                                ],
                               debug=True)
