@@ -289,14 +289,33 @@ class Welcome(BlogHandler):
 class FrontJson(BlogHandler):
     def get(self):
         posts = Post.all().order('-created')
-        jsonstr = "["
-        x = 0
-        for post in posts:
-            if x > 0:
-                poststr += ","
-            poststr = json.dumps(post.__dict__)
-            x += 1
-        jsonstr = jsonstr + "]"
+        json = JSONfromPosts (post)
+        self.response.headers['Content-Type'] = "application/json"
+        self.response.out.write(json)
+        
+def JSONfromPosts(self, posts):
+    jsonstr = "["
+    x = 0
+    for post in posts:
+        if x > 0:
+            poststr += ","
+        poststr = json.dumps(post.__dict__)
+        x += 1
+    jsonstr = jsonstr + "]"
+    return jsonstr
+    
+class PostPageJson(BlogHandler):
+    def get(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        post = db.get(key)
+
+        if not post:
+            self.error(404)
+            return
+        json = JSONfromPosts (post)
+        self.response.headers['Content-Type'] = "application/json"
+        self.response.out.write(json)
+        
 application = webapp2.WSGIApplication([('/', MainPage),
                                ('/unit2/rot13', Rot13),
                                ('/unit2/signup', Unit2Signup),
@@ -308,6 +327,7 @@ application = webapp2.WSGIApplication([('/', MainPage),
                                ('/login', Login),
                                ('/logout', Logout),
                                ('/unit3/welcome', Unit3Welcome),
-                               ('/blog/.json', FrontJson)
+                               ('/blog/.json', FrontJson),
+                               ('/blog/([0-9]+/.json)',PostPageJson)
                                ],
                               debug=True)
