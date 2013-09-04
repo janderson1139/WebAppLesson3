@@ -1,21 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+{% extends "base.html" %}
 
-	
-</head>
-<body>
-	<form method="post">
-		<label>
-		<input type="text" name="subject" value="{{subject}}">
-		</label>
-		<label>
-		<textarea name="content">{{content}}</textarea>
-		</label>
-		<label>
-			<div class="error">{{error}}</div>
-			<input type="submit">
-	</form>
-</body>
+{% block content %}
+  <h2>new post</h2>
 
-</html>
+    <form method="post">
+      <label>
+        <div>subject</div>
+        <input type="text" name="subject" value="{{subject}}">
+      </label>
+
+      <label>
+        <div>blog</div>
+        <textarea name="content">{{content}}</textarea>
+      </label>
+
+      <div class="error">{{error}}</div>
+
+      <input type="submit">
+    </form>
+{% endblock %}

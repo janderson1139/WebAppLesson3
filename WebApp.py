@@ -11,7 +11,7 @@ import jinja2
 
 from google.appengine.ext import db
 
-template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+template_dir = os.path.join(os.path.dirname(__file__), 'HTML')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
 
@@ -289,11 +289,11 @@ class Welcome(BlogHandler):
 class FrontJson(BlogHandler):
     def get(self):
         posts = Post.all().order('-created')
-        json = JSONfromPosts (post)
+        json = JSONfromPosts(posts)
         self.response.headers['Content-Type'] = "application/json"
         self.response.out.write(json)
         
-def JSONfromPosts(self, posts):
+def JSONfromPosts(posts):
     jsonstr = "["
     x = 0
     for post in posts:
@@ -312,7 +312,7 @@ class PostPageJson(BlogHandler):
         if not post:
             self.error(404)
             return
-        json = JSONfromPosts (post)
+        json = JSONfromPosts(post)
         self.response.headers['Content-Type'] = "application/json"
         self.response.out.write(json)
         
